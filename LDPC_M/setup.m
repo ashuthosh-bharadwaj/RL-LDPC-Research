@@ -1,7 +1,6 @@
 addpath('./utils');
 option = 'wlan'
 
-
 switch option
     case 'wlan'
         load('./Base_Matrices/WLAN_12_24_81.mat');
@@ -28,7 +27,6 @@ switch option
         numCols = z*numSubMatrixCols;
         % (420,520) = 10*(42,52) 
 end
-
 
 BitsinCheck = cell(numRows,1);
 

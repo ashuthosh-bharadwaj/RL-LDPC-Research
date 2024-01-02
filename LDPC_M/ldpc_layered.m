@@ -1,12 +1,13 @@
 setup;
 
 %SNRdB = [-2:1:0, 0.25:0.25:3, 4:6];
-SNRdB = -2;
-SNRdB
+%SNRdB = -2;
+SNRdB = 1.75:0.25:3.5;
+
 snr_len = numel(SNRdB);
 numIters = 20;
 P_ecw = zeros(1, snr_len);
-numTrials = 1e4;
+numTrials = 1e5;
 
 tic 
 for snr_idx = 1:snr_len
@@ -74,7 +75,7 @@ end
 toc
 
 P_ecw = P_ecw/numTrials;
-save('Layered.mat')
+save('./Output/Layered.mat');
 
 % plot(SNRdB,P_ecw);
 % xlabel('SNR (dB)');
