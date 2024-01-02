@@ -1,0 +1,81 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2023 The MathWorks, Inc.
+             R2023a Update 4 (9.14.0.2306882) 64-bit (glnxa64)
+                               June 19, 2023
+
+ 
+For online documentation, see https://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+
+myCluster = 
+
+ Local Cluster
+
+    Properties: 
+
+                   Profile: Processes
+                  Modified: false
+                      Host: gnode075
+                NumWorkers: 20
+                NumThreads: 1
+
+        JobStorageLocation: /home2/ashu_bharadwaj/.matlab/local_cluster_jobs/R2023a
+   RequiresOnlineLicensing: false
+
+    Associated Jobs: 
+
+            Number Pending: 0
+             Number Queued: 0
+            Number Running: 5
+           Number Finished: 0
+
+
+myCluster = 
+
+ Local Cluster
+
+    Properties: 
+
+                   Profile: Processes
+                  Modified: true
+                      Host: gnode075
+                NumWorkers: 40
+                NumThreads: 1
+
+        JobStorageLocation: /home2/ashu_bharadwaj/.matlab/local_cluster_jobs/R2023a
+   RequiresOnlineLicensing: false
+
+    Associated Jobs: 
+
+            Number Pending: 0
+             Number Queued: 0
+            Number Running: 5
+           Number Finished: 0
+
+SNR = -2.000000 
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 20 workers.
+SNR = -1.000000 
+SNR = 0.000000 
+SNR = 0.250000 
+SNR = 0.500000 
+SNR = 0.750000 
+SNR = 1.000000 
+SNR = 1.250000 
+SNR = 1.500000 
+SNR = 1.750000 
+SNR = 2.000000 
+SNR = 2.250000 
+SNR = 2.500000 
+SNR = 2.750000 
+SNR = 3.000000 
+SNR = 4.000000 
+SNR = 5.000000 
+SNR = 6.000000 
+Elapsed time is 137031.679284 seconds.
+[Warning: Saving object of class 'parallel.cluster.Local' is not supported.
+Avoid storing objects of this class in MAT files or sending them between MATLAB
+Sessions.] 
+>> Parallel pool using the 'Processes' profile is shutting down.
