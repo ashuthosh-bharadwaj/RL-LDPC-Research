@@ -28,6 +28,7 @@ switch option
         % (420,520) = 10*(42,52) 
 end
 
+msg_len = numCols - numRows; % (n - (n-k) = k)
 BitsinCheck = cell(numRows,1);
 
 for row_num = 1:numRows

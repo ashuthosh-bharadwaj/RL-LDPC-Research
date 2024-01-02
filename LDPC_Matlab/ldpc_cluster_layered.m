@@ -1,45 +1,14 @@
+setup;
 
 % get cluster alloc from pyscript before proceeding;
-
-addpath('./LDPC_M')
-addpath('./LDPC_M/utils')
-load('./LDPC_M/Base_Matrices/WLAN_12_24_81.mat');
-load('./LDPC_M/Imp.mat')
-z = 81;
-
-PCM = ldpcQuasiCyclicMatrix(z,H);
-Encode_config = ldpcEncoderConfig(PCM);
-
-[numSubMatrixRows, numSubMatrixCols] = size(H); 
-numRows = z*numSubMatrixRows;  
-numCols = z*numSubMatrixCols;
-% 12, 24 
-
-BitsinCheck = cell(numRows,1);
-
-for row_num = 1:numRows
-    
-    SubMatrixRow = ceil(row_num/z);
-    temp =  [];
-
-    for col = 1:numSubMatrixCols
-        SubMatrixVal = H(SubMatrixRow, col);
-
-        if SubMatrixVal ~= -1
-           temp = [temp,  z*(col-1) + mod(row_num + SubMatrixVal-1, z) + 1];
-        end
-    end 
-
-    BitsinCheck{row_num,1} = temp;
-end
-
+load('./utils/Cluster.mat');
 
 
 SNRdB = -2:12;
 snr_len = numel(SNRdB);
 numIters = 20;
 P_ecw = zeros(1, snr_len)
-numTrials = 1e3;
+numTrials = 1e6;
 
 tic 
 for snr_idx = 1:snr_len
@@ -51,11 +20,8 @@ for snr_idx = 1:snr_len
     parfor trial = 1:numTrials
         
         LLR_registers = cell(numRows,1);
-        %if mod(trial, 50) == 0
-        %   fprintf(1, 'trial = %d \n', trial);
-        %end
 
-        message = randi([0,1],1,972)';
+        message = randi([0,1],1,msg_len)';
         codeword = ldpcEncode(message, Encode_config);
 
         channel_input = (1 - 2*codeword);
@@ -120,10 +86,8 @@ for snr_idx = 1:snr_len
     P_ecw(snr_idx) = N_errors;
 
 end
+toc
 
 P_ecw = P_ecw/numTrials;
-save('./LC.mat')
+save('./Output/Cluster_layered.mat');
 
-%plot(SNRdB,P_ecw);
-%xlabel('SNR (dB)');
-%ylabel('Codeword error probability');

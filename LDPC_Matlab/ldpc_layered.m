@@ -8,7 +8,8 @@ SNRdB = -2:12;
 snr_len = numel(SNRdB);
 numIters = 20;
 P_ecw = zeros(1, snr_len);
-numTrials = 1e3;
+numTrials = 1e6;
+
 
 tic 
 for snr_idx = 1:snr_len
@@ -20,11 +21,8 @@ for snr_idx = 1:snr_len
     parfor trial = 1:numTrials
         
         LLR_registers = cell(numRows,1);
-        %if mod(trial, 1e5) == 0
-        %    fprintf(1, 'trial = %d \n', trial);
-        %end
 
-        message = randi([0,1],1,numCols - numRows)';
+        message = randi([0,1],1,)';
         codeword = ldpcEncode(message, Encode_config);
 
         channel_input = (1 - 2*codeword);
@@ -76,8 +74,5 @@ end
 toc
 
 P_ecw = P_ecw/numTrials;
-save('./Output/Layered_1e3.mat');
+save('./Output/Layered.mat');
 
-% plot(SNRdB,P_ecw);
-% xlabel('SNR (dB)');
-% ylabel('Codeword error probability');

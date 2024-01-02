@@ -9,6 +9,7 @@ numIters = 20;
 P_ecw = zeros(1, snr_len);
 numTrials = 1e5;
 
+
 tic 
 for snr_idx = 1:snr_len
 
@@ -19,11 +20,8 @@ for snr_idx = 1:snr_len
     parfor trial = 1:numTrials
         
         LLR_registers = cell(numRows,1);
-        %if mod(trial, 1e5) == 0
-        %    fprintf(1, 'trial = %d \n', trial);
-        %end
 
-        message = randi([0,1],1,numCols - numRows)';
+        message = randi([0,1],1,msg_len)';
         codeword = ldpcEncode(message, Encode_config);
 
         channel_input = (1 - 2*codeword);
