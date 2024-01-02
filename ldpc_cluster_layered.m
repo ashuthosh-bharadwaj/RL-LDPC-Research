@@ -2,8 +2,9 @@
 % get cluster alloc from pyscript before proceeding;
 
 addpath('./LDPC_M')
-load('./LDPC_M/H.mat');
-
+addpath('./LDPC_M/utils')
+load('./LDPC_M/Base_Matrices/WLAN_12_24_81.mat');
+load('./LDPC_M/Imp.mat')
 z = 81;
 
 PCM = ldpcQuasiCyclicMatrix(z,H);
@@ -32,22 +33,27 @@ for row_num = 1:numRows
     BitsinCheck{row_num,1} = temp;
 end
 
-LLR_registers = cell(numRows,1);
 
 
 SNRdB = -2:12;
+snr_len = numel(SNRdB);
 numIters = 20;
-P_ecw = [];
-numTrials = 1000;
+P_ecw = zeros(1, snr_len)
+numTrials = 1e3;
 
-for snr = SNRdB
+tic 
+for snr_idx = 1:snr_len
+
+    snr = SNRdB(snr_idx);
     fprintf(1, 'SNR = %f \n',snr);
     N_errors = 0;
-    for trial = 1:numTrials
+
+    parfor trial = 1:numTrials
         
-        if mod(trial, 50) == 0
-            fprintf(1, 'trial = %d \n', trial);
-        end
+        LLR_registers = cell(numRows,1);
+        %if mod(trial, 50) == 0
+        %   fprintf(1, 'trial = %d \n', trial);
+        %end
 
         message = randi([0,1],1,972)';
         codeword = ldpcEncode(message, Encode_config);
@@ -111,12 +117,12 @@ for snr = SNRdB
         end 
     end
     
-    P_ecw = [P_ecw, N_errors/numTrials];
+    P_ecw(snr_idx) = N_errors;
 
 end
 
-P_ecw
-
+P_ecw = P_ecw/numTrials;
+save('./LC.mat')
 
 %plot(SNRdB,P_ecw);
 %xlabel('SNR (dB)');
