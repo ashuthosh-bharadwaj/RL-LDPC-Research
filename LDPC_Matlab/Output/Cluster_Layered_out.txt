@@ -9,15 +9,9 @@ For online documentation, see https://www.mathworks.com/support
 For product information, visit www.mathworks.com.
  
 
-P_ecw =
+option =
 
-  Columns 1 through 13
-
-     0     0     0     0     0     0     0     0     0     0     0     0     0
-
-  Columns 14 through 15
-
-     0     0
+    'wlan'
 
 SNR = -2.000000 
 Starting parallel pool (parpool) using the 'Processes' profile ...
@@ -36,4 +30,5 @@ SNR = 9.000000
 SNR = 10.000000 
 SNR = 11.000000 
 SNR = 12.000000 
+Elapsed time is 276.251324 seconds.
 >> Parallel pool using the 'Processes' profile is shutting down.

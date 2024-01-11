@@ -46,3 +46,12 @@ for row_num = 1:numRows
 
     BitsinCheck{row_num,1} = temp;
 end
+
+LLR_registers_init = cell(numRows,1);
+
+for row_num = 1:numRows
+    LLR_registers_init{row_num} = 0*BitsinCheck{row_num};
+end 
+
+mex -setup c++
+mex -g ../LDPC_Cpp/layer_decode.cpp

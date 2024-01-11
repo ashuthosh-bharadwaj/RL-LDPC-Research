@@ -1,7 +1,6 @@
 setup;
 
 %SNRdB = [-2:1:0, 0.25:0.25:3, 4:6];
-%SNRdB = -2;
 SNRdB = 1.75:0.25:3.5;
 
 snr_len = numel(SNRdB);
@@ -19,7 +18,7 @@ for snr_idx = 1:snr_len
 
     parfor trial = 1:numTrials
         
-        LLR_registers = cell(numRows,1);
+        LLR_registers = LLR_registers_init;
 
         message = randi([0,1],1,msg_len)';
         codeword = ldpcEncode(message, Encode_config);
@@ -32,11 +31,6 @@ for snr_idx = 1:snr_len
         pos = 1;
         llr_in = pos*channel_output;
         r = llr_in;
-
-        for row_num = 1:numRows
-            LLR_registers{row_num} = 0*BitsinCheck{row_num};
-        end 
-
         llr_out = r;
 
         % Flooding decoder start

@@ -4,11 +4,14 @@ setup;
 load('./utils/Cluster.mat');
 
 
+%SNRdB = [-2:1:0, 0.25:0.25:3, 4:6];
 SNRdB = -2:12;
+% SNRdB = 1.75:0.25:3.5;
+
 snr_len = numel(SNRdB);
 numIters = 20;
-P_ecw = zeros(1, snr_len)
-numTrials = 1e6;
+P_ecw = zeros(1, snr_len);
+numTrials = 1e3;
 
 tic 
 for snr_idx = 1:snr_len
@@ -19,7 +22,7 @@ for snr_idx = 1:snr_len
 
     parfor trial = 1:numTrials
         
-        LLR_registers = cell(numRows,1);
+        LLR_registers = LLR_registers_init;
 
         message = randi([0,1],1,msg_len)';
         codeword = ldpcEncode(message, Encode_config);
@@ -32,11 +35,6 @@ for snr_idx = 1:snr_len
         pos = 1;
         llr_in = pos*channel_output;
         r = llr_in;
-
-        for row_num = 1:numRows
-            LLR_registers{row_num} = 0*BitsinCheck{row_num};
-        end 
-
         llr_out = r;
 
         layer_sum = zeros(numSubMatrixRows,numCols);
@@ -52,7 +50,7 @@ for snr_idx = 1:snr_len
                     %disp(size(layer_sum(layer, BitsinCheck{cluster_alloc(layer, row_num)})'));
                     %disp(size(LLR_registers{cluster_alloc(layer, row_num)}'));
 
-                    r(BitsinCheck{cluster_alloc(layer, row_num)}) = llr_out(BitsinCheck{cluster_alloc(layer, row_num)}) + layer_sum(layer, BitsinCheck{cluster_alloc(layer, row_num)})' - LLR_registers{cluster_alloc(layer, row_num)}';
+                    r(BitsinCheck{cluster_alloc(layer, row_num)}) = llr_out(BitsinCheck{cluster_alloc(layer, row_num)}) + layer_sum(layer, BitsinCheck{cluster_alloc(layer, row_num)})' - 2*LLR_registers{cluster_alloc(layer, row_num)}';
                 end
                  
                 for row_num = 1:z    

@@ -13,15 +13,6 @@ option =
 
     'wlan'
 
-SNR = 1.750000 
+SNR = -2.000000 
 Starting parallel pool (parpool) using the 'Processes' profile ...
 Connected to parallel pool with 20 workers.
-SNR = 2.000000 
-SNR = 2.250000 
-SNR = 2.500000 
-SNR = 2.750000 
-SNR = 3.000000 
-SNR = 3.250000 
-SNR = 3.500000 
-Elapsed time is 4834.765372 seconds.
->> Parallel pool using the 'Processes' profile is shutting down.

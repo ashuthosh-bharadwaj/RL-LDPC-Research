@@ -1,4 +1,4 @@
-load LDPC_M/NR_2_2_10.txt;
+load('./Base_Matrices/NR_2_2_10.mat');
 snr = -2:12;
 num_snr = numel(snr);
 L = [];
@@ -6,7 +6,7 @@ C = [];
 
 for i = 1:5000
     message = randi([0,1],1,100);
-    codeword = encoder(NR_2_2_10, 10, message);
+    codeword = encoder(H, 10, message);
 
     channel_input = (1 - 2*codeword);
     var = sqrt(10^(-1*snr(randperm(num_snr,1))/10));
