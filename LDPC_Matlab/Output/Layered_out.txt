@@ -13,6 +13,9 @@ option =
 
     'wlan'
 
-SNR = -2.000000 
-Starting parallel pool (parpool) using the 'Processes' profile ...
-Connected to parallel pool with 20 workers.
+MEX configured to use 'g++' for C++ language compilation.
+Building with 'g++'.
+MEX completed successfully.
+SNR = 1.750000 
+Elapsed time is 70.887918 seconds.
+>> 

@@ -2,12 +2,12 @@ setup;
 
 %SNRdB = [-2:1:0, 0.25:0.25:3, 4:6];
 % SNRdB = 1.75:0.25:3.5;
-SNRdB = -2;
+SNRdB = 1.75;
 
 snr_len = numel(SNRdB);
 numIters = 20;
 P_ecw = zeros(1, snr_len);
-numTrials = 1e6;
+numTrials = 1e3;
 
 tic 
 for snr_idx = 1:snr_len
@@ -16,7 +16,7 @@ for snr_idx = 1:snr_len
     fprintf(1, 'SNR = %f \n',snr);
     N_errors = 0;
 
-    parfor trial = 1:numTrials
+    for trial = 1:numTrials
         
         LLR_registers = LLR_registers_init;
 

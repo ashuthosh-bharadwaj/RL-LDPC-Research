@@ -17,5 +17,10 @@ MEX configured to use 'g++' for C++ language compilation.
 Building with 'g++'.
 MEX completed successfully.
 SNR = 1.750000 
-Starting parallel pool (parpool) using the 'Processes' profile ...
-Connected to parallel pool with 20 workers.
+
+P_ecw =
+
+    82     0     0     0     0     0     0     0
+
+Elapsed time is 654.062377 seconds.
+SNR = 2.000000 

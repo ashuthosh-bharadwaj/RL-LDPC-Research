@@ -53,5 +53,7 @@ for row_num = 1:numRows
     LLR_registers_init{row_num} = 0*BitsinCheck{row_num};
 end 
 
+LDPC_details = [numSubMatrixRows, z];
+
 mex -setup c++
-mex -g ../LDPC_Cpp/layer_decode.cpp
+mex -g Extra/layer_decode.cpp
