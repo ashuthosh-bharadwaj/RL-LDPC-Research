@@ -1,5 +1,5 @@
 addpath('./utils');
-option = 'wlan'
+option = '5gnr'
 
 switch option
     case 'wlan'
@@ -13,7 +13,6 @@ switch option
         numRows = z*numSubMatrixRows;  
         numCols = z*numSubMatrixCols;
         % (974,1944) = 81*(12,24)  
-
 
     case '5gnr'
         load('./Base_Matrices/NR_2_2_10.mat');
@@ -55,5 +54,22 @@ end
 
 LDPC_details = [numSubMatrixRows, z];
 
-mex -setup c++
-mex -g Extra/layer_decode.cpp
+fileID = fopen('exp.txt','w');
+fprintf(fileID,'SubMatrix = ');
+
+fprintf(fileID,"{");
+for i = 1:size(H, 1)
+    fprintf(fileID,"{");
+    for j = 1:(size(H, 2)-1)
+        fprintf(fileID,'%d, ', H(i, j));
+    end
+    fprintf(fileID,'%d', H(i,size(H, 2)));
+
+    fprintf(fileID,"},");
+    fprintf(fileID,'\n');
+end
+fprintf(fileID,"}");
+fprintf(fileID,";");
+
+% mex -setup c++
+% mex -g Extra/layer_decode.cpp
