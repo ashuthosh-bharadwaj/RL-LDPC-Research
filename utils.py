@@ -56,17 +56,17 @@ def min_algo(x):
 
 
 def SubMatrix2PCM(SubMatrix, z):
-    m,n = shape(SubMatrix)
+    m,n = np.shape(SubMatrix)
     
     H = cyc_shift_iden(SubMatrix[0,0],z)
     for idx in range(1,n): 
-        H = append(H, cyc_shift_iden(SubMatrix[0,idx],z),1)
+        H = np.append(H, cyc_shift_iden(SubMatrix[0,idx],z),1)
 
     for i in range(1,m): 
         g = cyc_shift_iden(SubMatrix[i,0],z)
         for idx in range(1,n): 
-            g = append(g, cyc_shift_iden(SubMatrix[i,idx],z),1)
-        H = append(H,g,0)
+            g = np.append(g, cyc_shift_iden(SubMatrix[i,idx],z),1)
+        H = np.append(H,g,0)
     return H
 
 
@@ -86,7 +86,7 @@ def Unionise(A):
 
 
 def Histogramize(A,size):
-    Hist = zeros((size,))
+    Hist = np.zeros((size,))
     Set_invert = {i:[] for i in range(size)}
 
     for key,value_list in A.items():
@@ -99,6 +99,11 @@ def Histogramize(A,size):
 
 # Cycle maximised cluster formation
 def cluster_form(z, K_cycles, K, M):
+
+    CN = set()
+    for i in range(M):
+        CN.add(i)
+
     x = 1
     Clusters = {}
     e = 0
@@ -123,7 +128,7 @@ def cluster_form(z, K_cycles, K, M):
             break        
         
         cn_list = [x for x in Remaining]
-        c_star = cn_list[argmax(Hist[cn_list])]
+        c_star = cn_list[np.argmax(Hist[cn_list])]
 
         Union_SK = {}
         for k in Set_invert[c_star]:
@@ -144,3 +149,12 @@ def cluster_form(z, K_cycles, K, M):
             e += 1
 
     return Clusters
+
+def NeighborVN(cluster, G, M):
+    temp = set()
+    for cn in cluster:
+        cns_vns = np.array(G[cn]) - M
+        for vn in cns_vns:
+            temp.add(vn)
+    
+    return sorted(temp)
