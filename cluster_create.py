@@ -31,13 +31,14 @@ for cyc in a:
         b.append(cyc)
 
 # checknodes per cluster
-z = 2  
+z = 2
+
 clusters = cluster_form(z,K_cycles=b,K=K, M=M)
 
 num_clusters = len(clusters)
 
 # clusters already a dictionary 
-vns_in_cluster = { cluster_idx: NeighborVN(cluster, G, M) for cluster_idx, cluster in clusters.items() }
+vns_in_cluster = {cluster_idx: NeighborVN(cluster, G, M) for cluster_idx, cluster in clusters.items() }
 
 MATLAB.workspace['num_clusters'] = matlab.int64(num_clusters)
 
@@ -46,8 +47,8 @@ MATLAB.eval("clusters = cell(num_clusters,1);", nargout=0)
 MATLAB.eval("vns_in_cluster = cell(num_clusters,1);", nargout=0)
 
 for i in range(num_clusters):
-    MATLAB.eval("clusters" + "{" + str(i+1) + "} = " + str(np.array(clusters[i]) + 1) + ";", nargout=0) 
-    MATLAB.eval("vns_in_cluster" + "{" + str(i+1) + "} = " + str(np.array(vns_in_cluster[i]) + 1) + ";", nargout=0)
+    MATLAB.eval("clusters" + "{" + str(i+1) + "} = " + str(clusters[i]) + "+ 1;", nargout=0) 
+    MATLAB.eval("vns_in_cluster" + "{" + str(i+1) + "} = " + str(vns_in_cluster[i]) + "+ 1;", nargout=0)
 
 MATLAB.eval("save('./Datasets/LDPC_init.mat')",nargout=0)
 MATLAB.eval("load('./Datasets/LC_dataset.mat')",nargout=0)
