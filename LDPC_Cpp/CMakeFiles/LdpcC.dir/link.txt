@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11   CMakeFiles/LdpcC.dir/ldpc_encoder.cpp.o CMakeFiles/LdpcC.dir/main.cpp.o  -o LdpcC 

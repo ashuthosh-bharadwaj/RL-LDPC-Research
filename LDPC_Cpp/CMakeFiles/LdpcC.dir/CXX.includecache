@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ashunix/LDPC_git/LDPC_Cpp/ldpc_encoder.h
+vector
+-
+
+/home/ashunix/LDPC_git/LDPC_Cpp/main.cpp
+iostream
+-
+random
+-
+ldpc_encoder.h
+/home/ashunix/LDPC_git/LDPC_Cpp/ldpc_encoder.h
+

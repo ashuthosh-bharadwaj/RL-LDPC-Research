@@ -1,0 +1,3 @@
+/home/ashunix/LDPC_git/LDPC_Cpp/CMakeFiles/rebuild_cache.dir
+/home/ashunix/LDPC_git/LDPC_Cpp/CMakeFiles/edit_cache.dir
+/home/ashunix/LDPC_git/LDPC_Cpp/CMakeFiles/LdpcC.dir
