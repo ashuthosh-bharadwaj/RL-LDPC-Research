@@ -39,14 +39,14 @@ for snr_idx = 1:snr_len
 
             for layer = 1:numSubMatrixRows
 
-                for row_num = 1:z    
-                    r(BitsinCheck{(layer-1)*z + row_num}) = llr_out(BitsinCheck{(layer-1)*z + row_num}) - LLR_registers{(layer-1)*z + row_num}';
+                for row_num = 1:Z    
+                    r(BitsinCheck{(layer-1)*Z + row_num}) = llr_out(BitsinCheck{(layer-1)*Z + row_num}) - LLR_registers{(layer-1)*Z + row_num}';
                 end
                  
-                for row_num = 1:z    
-                    LLR_registers{(layer-1)*z + row_num} = llr_out(BitsinCheck{(layer-1)*z + row_num})' - LLR_registers{(layer-1)*z + row_num};
-                    LLR_registers{(layer-1)*z + row_num} = Min(LLR_registers{(layer-1)*z + row_num});
-                    r(BitsinCheck{(layer-1)*z + row_num}) = r(BitsinCheck{(layer-1)*z + row_num}) + LLR_registers{(layer-1)*z + row_num}';
+                for row_num = 1:Z 
+                    LLR_registers{(layer-1)*Z + row_num} = llr_out(BitsinCheck{(layer-1)*Z + row_num})' - LLR_registers{(layer-1)*Z + row_num};
+                    LLR_registers{(layer-1)*Z + row_num} = Min(LLR_registers{(layer-1)*Z + row_num});
+                    r(BitsinCheck{(layer-1)*Z + row_num}) = r(BitsinCheck{(layer-1)*Z + row_num}) + LLR_registers{(layer-1)*Z + row_num}';
                 end              
                 llr_out = r;
             end

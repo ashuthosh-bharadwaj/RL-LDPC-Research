@@ -19,11 +19,11 @@ for cn_idx = 1:num_cns
     places = BitsinCheck{idxmap_C(cn_idx)};
     current(cn_idx, idxmap_V(places)) = l(places) -  current(cn_idx, idxmap_V(places));
 
-    % Mforw = tanh(current(cn_idx, idxmap_V(places))/2);
-    % product = prod(Mforw);
-    % Mforw = 2*(product./Mforw);
+    Mforw = tanh(current(cn_idx, idxmap_V(places))/2);
+    product = prod(Mforw);
+    Mforw = 2*(product./Mforw);
 
-    Mforw = Min(current(cn_idx, idxmap_V(places)));
+    % Mforw = Min(current(cn_idx, idxmap_V(places)));
     
     current(cn_idx, idxmap_V(places)) = Mforw;
 

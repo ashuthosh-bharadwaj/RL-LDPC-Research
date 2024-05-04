@@ -7,7 +7,7 @@ import matlab.engine
 
 
 MATLAB = matlab.engine.start_matlab()
-MATLAB.eval("addpath('LDPC_Matlab'); cd 'LDPC_Matlab'; setup; LC_generate;",nargout=0)
+MATLAB.eval("addpath('LDPC_Matlab'); cd 'LDPC_Matlab'; setup; ",nargout=0)
 
 Z = int(MATLAB.workspace['Z'])
 

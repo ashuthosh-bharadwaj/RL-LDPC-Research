@@ -1,6 +1,3 @@
-setup;
-RELDEC;
-
 %SNRdB = [-2:1:0, 0.25:0.25:3, 4:6];
 % SNRdB = 1.75:0.25:3.5;
 SNRdB = 1:0.5:3.5;
@@ -9,7 +6,7 @@ SNRdB = 1:0.5:3.5;
 snr_len = numel(SNRdB);
 numIters = 50;
 P_ecw = zeros(1, snr_len);
-numTrials = 1e5;
+numTrials = 1e3;
 
 tic 
 for snr_idx = 1:snr_len
@@ -22,7 +19,7 @@ for snr_idx = 1:snr_len
     for trial = 1:numTrials
 
         message = randi([0,1],1,msg_len)';
-        codeword = ldpcEncode(message, Encode_config);
+        codeword = ldpcEncode(message, Encode_config)';
 
         channel_input = (1 - 2*codeword);
         noise = var*randn(size(channel_input));
@@ -31,7 +28,6 @@ for snr_idx = 1:snr_len
         pos = 1;
         llr_in = pos*channel_output;
         l = llr_in;
-
 
         S_ = zeros(num_clusters,1); 
         ldpc_registers = cell(tau,1);

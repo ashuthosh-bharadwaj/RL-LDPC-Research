@@ -1,4 +1,4 @@
-workspace
+% workspace
 load('LDPC_Matlab/Datasets/LC_dataset.mat');
 load('LDPC_Matlab/Datasets/LDPC_init.mat');
 addpath('LDPC_Matlab/utils');
@@ -82,14 +82,18 @@ for idx = 1:ndata
 
         Reward_a = (1/numel(vns_in_cluster{a}))*(sum(c(vns_in_cluster{a}) == x_hat_a));
 
-        S(a) = s_a;
+        % S_next = S;
+        % S_next(a) = s_a;
 
-        for i = A
-            QQ(i) = Q(i, S(i)+1);
-        end
+        % for i = A
+        %     QQ(i) = Q(i, S_next(i)+1);
+        % end
 
-        Q(a, S(a)+1) = (1-alpha)*Q(a, S(a)+1) + alpha*(Reward_a + beta*(max(QQ))); %fix here 
+        % Q(clust, S(clust)+1) = (1-alpha)*Q(clust, S(clust)+1) + alpha*(Reward_a + beta*(max(QQ))); %fix here
         
+        Q(a, S(a)+1) = (1-alpha)*Q(a, S(a)+1) + alpha*(Reward_a + beta*(max(Q(:,s_a+1))));
+
+        S(a) = s_a;
         l_ = l_ + 1;
 
     end

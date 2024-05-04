@@ -3,7 +3,6 @@ I_max = 50;
 S_ = zeros(num_clusters,1); 
 ldpc_registers = cell(tau,1);
 
-
 for i = 1:tau
     
     CNs = clusters{i};
