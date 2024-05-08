@@ -17,7 +17,7 @@ end
 
 message = zeros(1,100);
 
-codeword = encoder(H, 10, message);
+codeword = ldpcEncode(message, Encode_config);
 
 channel_input = (1 - 2*codeword);
 var = sqrt(10^(-1/10));
@@ -27,10 +27,6 @@ channel_output = channel_input + noise;
 l = channel_output;
 
 while I < I_max
-    
-    if numel(a) > 1
-        keyboard();
-    end
     
     for c_idx = 1:num_clusters
         S_(c_idx) = int_m(l(vns_in_cluster{c_idx}) >= 0);
@@ -54,7 +50,7 @@ while I < I_max
     xhat = (l < 0);
     
     if mod(sum(PCM*xhat'),2) == 0
-        %do something
+        break;
     end
 
     I = I + 1;

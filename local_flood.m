@@ -37,25 +37,23 @@ l(VNs) = l(VNs) + sum(current);
 ldpc_registers{a} = current; % re-init for self-belief removal
 
 
-%{
+%{ Mforw debug prints 
 
-fprintf(1,"Before Mforw calc \n\n");
+% fprintf(1,"Before Mforw calc \n\n");
 
-if ~allfinite(Mforw)
-    fprintf(1,"After tanh( ) \n");
-    fprintf(1,"The cluster is %d \n\n", a);
-    disp(clusters{a})
-    keyboard();
-end
-
-
-if ~allfinite(Mforw)
-    fprintf(1,"After atanh of product \n");
-    fprintf(1,"The cluster is %d \n\n", a);
-    disp(clusters{a})
-    keyboard();
-end
+% if ~allfinite(Mforw)
+%     fprintf(1,"After tanh( ) \n");
+%     fprintf(1,"The cluster is %d \n\n", a);
+%     disp(clusters{a})
+%     keyboard();
+% end
 
 
+% if ~allfinite(Mforw)
+%     fprintf(1,"After atanh of product \n");
+%     fprintf(1,"The cluster is %d \n\n", a);
+%     disp(clusters{a})
+%     keyboard();
+% end
 
 %}

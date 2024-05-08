@@ -54,6 +54,7 @@ for row_num = 1:numRows
     LLR_registers_init{row_num} = 0*BitsinCheck{row_num};
 end 
 
+clear temp;
 
 % SUBMATRIX PRINTER %
 

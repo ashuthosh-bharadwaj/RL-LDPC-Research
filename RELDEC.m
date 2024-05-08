@@ -43,18 +43,17 @@ beta = 0.9;
 
 A = 1:tau;
 num_states = 2^max_la;
+
 Q = zeros(tau,num_states);
+S = zeros(num_clusters,1);
 
 [ndata, ~] = size(L);
-
-S = zeros(num_clusters,1);
 
 for idx = 1:ndata
     l = L(idx,:);
     c = C(idx,:);
 
     l_ = 0;
-    L_hat_l_ = l;
 
     for c_idx = 1:num_clusters
         S(c_idx) = int_m(l(vns_in_cluster{c_idx}) >= 0);
@@ -62,6 +61,7 @@ for idx = 1:ndata
     
     while l_ < l_max
 
+        % Policy is epsilon non-greedy (wp 1-epsilon, exploit) 
         if rand <= epsilon
             a = randi(tau,1);
         else
@@ -76,20 +76,11 @@ for idx = 1:ndata
         
         local_flood; %(tanh first and sum second)
 
-        x_hat_a = vns_in_cluster{a} >= 0;
+        x_hat_a = (vns_in_cluster{a} >= 0);
 
         s_a = int_m(x_hat_a);
 
         Reward_a = (1/numel(vns_in_cluster{a}))*(sum(c(vns_in_cluster{a}) == x_hat_a));
-
-        % S_next = S;
-        % S_next(a) = s_a;
-
-        % for i = A
-        %     QQ(i) = Q(i, S_next(i)+1);
-        % end
-
-        % Q(clust, S(clust)+1) = (1-alpha)*Q(clust, S(clust)+1) + alpha*(Reward_a + beta*(max(QQ))); %fix here
         
         Q(a, S(a)+1) = (1-alpha)*Q(a, S(a)+1) + alpha*(Reward_a + beta*(max(Q(:,s_a+1))));
 
@@ -101,20 +92,15 @@ for idx = 1:ndata
 end
 
 
+%{  PAST DEVELOPMENT Eq fixes
 
+% S_next = S;
+% S_next(a) = s_a;
 
+% for i = A
+%     QQ(i) = Q(i, S_next(i)+1);
+% end
 
+% Q(clust, S(clust)+1) = (1-alpha)*Q(clust, S(clust)+1) + alpha*(Reward_a + beta*(max(QQ))); %fix here
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+%}

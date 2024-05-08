@@ -38,7 +38,7 @@ clusters = cluster_form(z,K_cycles=b,K=K, M=M)
 num_clusters = len(clusters)
 
 # clusters already a dictionary 
-vns_in_cluster = {cluster_idx: NeighborVN(cluster, G, M) for cluster_idx, cluster in clusters.items() }
+vns_in_cluster = {cluster_idx: NeighborVN(cluster, G, M) for cluster_idx, cluster in clusters.items()}
 
 MATLAB.workspace['num_clusters'] = matlab.int64(num_clusters)
 

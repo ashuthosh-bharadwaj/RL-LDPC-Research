@@ -1,8 +1,6 @@
 setup;
 
-%SNRdB = [-2:1:0, 0.25:0.25:3, 4:6];
 SNRdB = 1.75:0.25:3.5;
-% SNRdB = 1.75;
 
 snr_len = numel(SNRdB);
 numIters = 50;
@@ -69,4 +67,3 @@ toc
 
 P_ecw
 % save('./Output/Layered.mat');
-

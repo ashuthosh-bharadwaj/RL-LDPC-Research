@@ -1,14 +1,12 @@
-%SNRdB = [-2:1:0, 0.25:0.25:3, 4:6];
-% SNRdB = 1.75:0.25:3.5;
-SNRdB = 1:0.5:3.5;
+%setup
 
+SNRdB = 1:0.5:3.5;
 
 snr_len = numel(SNRdB);
 numIters = 50;
 P_ecw = zeros(1, snr_len);
 numTrials = 1e3;
 
-tic 
 for snr_idx = 1:snr_len
 
     snr = SNRdB(snr_idx);
@@ -79,7 +77,6 @@ for snr_idx = 1:snr_len
     P_ecw(snr_idx) = N_errors;
 
 end
-toc
 
 P_ecw
 
