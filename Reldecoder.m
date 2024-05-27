@@ -15,9 +15,9 @@ for i = 1:tau
 
 end
 
-message = zeros(1,100);
+message = zeros(1,msg_len);
 
-codeword = ldpcEncode(message, Encode_config);
+codeword = mod(message*G,2);
 
 channel_input = (1 - 2*codeword);
 var = sqrt(10^(-1/10));

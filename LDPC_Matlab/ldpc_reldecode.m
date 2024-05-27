@@ -1,11 +1,15 @@
 %setup
+cd ..
+RELDEC; 
 
 SNRdB = 1:0.5:3.5;
 
 snr_len = numel(SNRdB);
 numIters = 50;
 P_ecw = zeros(1, snr_len);
-numTrials = 1e3;
+numTrials = 1e6;
+
+Err_in_cdw = zeros(1, 2^(msg_len));
 
 for snr_idx = 1:snr_len
 
@@ -16,8 +20,9 @@ for snr_idx = 1:snr_len
 
     for trial = 1:numTrials
 
-        message = randi([0,1],1,msg_len)';
-        codeword = ldpcEncode(message, Encode_config)';
+        message = randi([0,1],1,msg_len);
+        counter = bin2dec(num2str(message)) + 1; 
+        codeword = mod(message*G,2);
 
         channel_input = (1 - 2*codeword);
         noise = var*randn(size(channel_input));
@@ -70,6 +75,7 @@ for snr_idx = 1:snr_len
 
         if any(xhat ~= codeword)
             N_errors = N_errors + 1;
+            Err_in_cdw(counter)  = Err_in_cdw(counter) + 1;
         end 
    
     end
@@ -80,4 +86,5 @@ end
 
 P_ecw
 
+Err_in_cdw
 
