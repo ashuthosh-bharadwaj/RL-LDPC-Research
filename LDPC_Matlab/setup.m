@@ -1,7 +1,7 @@
 addpath('./utils');
 addpath('./Extra');
 
-option = '5gnr'
+option = 'Hamming'
 
 switch option
     case 'wlan'
@@ -27,6 +27,17 @@ switch option
         numRows = Z*numSubMatrixRows;  
         numCols = Z*numSubMatrixCols;
         % (420,520) = 10*(42,52) 
+
+    case 'Hamming'
+        load('./Datasets/RLH.mat');
+        Z = 1;
+
+        PCM = ldpcQuasiCyclicMatrix(Z,H);
+        
+        [numSubMatrixRows, numSubMatrixCols] = size(H); 
+        numRows = Z*numSubMatrixRows;  
+        numCols = Z*numSubMatrixCols;
+        
 end
 
 msg_len = numCols - numRows; % (n - (n-k) = k)

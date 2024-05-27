@@ -1,14 +1,14 @@
 snr = 1:0.5:3.5;
 num_snr = numel(snr);
-L = zeros(15000,520);
-C = zeros(15000,520);
+L = zeros(15000,numCols);
+C = zeros(15000,numCols);
 
 % Randomness controller
 rng(1)
 
 for i = 1:15000
-    message = randi([0,1],1,100);
-    codeword = ldpcEncode(message, Encode_config);
+    message = randi([0,1],1,msg_len);
+    codeword = mod(message*G,2);
 
     channel_input = (1 - 2*codeword);
     var = sqrt(10^(-1*snr(randperm(num_snr,1))/10));

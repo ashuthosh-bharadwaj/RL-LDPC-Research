@@ -31,7 +31,7 @@ for cyc in a:
         b.append(cyc)
 
 # checknodes per cluster
-z = 2
+z = 1
 
 clusters = cluster_form(z,K_cycles=b,K=K, M=M)
 
@@ -50,5 +50,5 @@ for i in range(num_clusters):
     MATLAB.eval("clusters" + "{" + str(i+1) + "} = " + str(clusters[i]) + "+ 1;", nargout=0) 
     MATLAB.eval("vns_in_cluster" + "{" + str(i+1) + "} = " + str(vns_in_cluster[i]) + "+ 1;", nargout=0)
 
+
 MATLAB.eval("save('./Datasets/LDPC_init.mat')",nargout=0)
-MATLAB.eval("load('./Datasets/LC_dataset.mat')",nargout=0)
