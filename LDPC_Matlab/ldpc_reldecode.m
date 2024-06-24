@@ -11,7 +11,7 @@ numTrials = 1e6;
 
 Err_in_cdw = zeros(1, 2^(msg_len));
 
-for snr_idx = 1:snr_len
+parfor snr_idx = 1:snr_len
 
     snr = SNRdB(snr_idx);
     fprintf(1, 'SNR = %f \n',snr);
@@ -51,7 +51,7 @@ for snr_idx = 1:snr_len
         for iter = 1:numIters
             
             for c_idx = 1:num_clusters
-                S_(c_idx) = int_m(l(vns_in_cluster{c_idx}) >= 0);
+                S_(c_idx) = int_m(l(vns_in_cluster{c_idx}) < 0);
             end
         
             Q_req = zeros(tau,1);
@@ -63,7 +63,45 @@ for snr_idx = 1:snr_len
             [~, schedule] = sort(Q_req,'descend');
         
             for a = schedule'
-                local_flood;
+                % Based on given cluster, find the right set of var nodes and checknodes and commence flooding; 
+                CNs = clusters{a};
+                VNs = vns_in_cluster{a};
+
+                num_cns = numel(CNs);
+                num_vns = numel(VNs);
+
+                idxmap_C = dictionary(1:num_cns, CNs);
+                idxmap_V = dictionary(VNs, 1:num_vns);
+
+
+                current = ldpc_registers{a};
+
+
+                % C -> V
+
+                for cn_idx = 1:num_cns
+
+                    places = BitsinCheck{idxmap_C(cn_idx)};
+                    current(cn_idx, idxmap_V(places)) = l(places) -  current(cn_idx, idxmap_V(places));
+
+                    Mforw = tanh(current(cn_idx, idxmap_V(places))/2);
+                    product = prod(Mforw);
+                   
+                    Mforw = product./Mforw;
+                    Mforw_parity = sign(1+ 2*sign(Mforw));
+                    Mforw = 2*atanh(Mforw_parity.*min(abs(Mforw), 0.9999787));
+                    
+                    current(cn_idx, idxmap_V(places)) = Mforw;
+
+                end
+
+
+                % V -> C
+
+                l(VNs) = l(VNs) + sum(current,1);
+
+                ldpc_registers{a} = current; % re-init for self-belief removal
+
             end
         
             xhat = (l < 0);

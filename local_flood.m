@@ -21,18 +21,24 @@ for cn_idx = 1:num_cns
 
     Mforw = tanh(current(cn_idx, idxmap_V(places))/2);
     product = prod(Mforw);
-    Mforw = 2*(product./Mforw);
 
-    % Mforw = Min(current(cn_idx, idxmap_V(places)));
+    Mforw = product./Mforw;
+    Mforw_parity = sign(1+ 2*sign(Mforw));
+    Mforw = 2*atanh(Mforw_parity.*min(abs(Mforw), 0.9999787));
     
     current(cn_idx, idxmap_V(places)) = Mforw;
+
+    % Checker for LLRs blowing up
+    if any(isinf(current))
+        keyboard;
+    end
 
 end
 
 
 % V -> C
 
-l(VNs) = l(VNs) + sum(current);
+l(VNs) = l(VNs) + sum(current,1);
 
 ldpc_registers{a} = current; % re-init for self-belief removal
 
