@@ -7,8 +7,7 @@ numIters = 50;
 P_ecw = zeros(1, snr_len);
 numTrials = 1e4;
 
-tic 
-for snr_idx = 1:snr_len
+parfor snr_idx = 1:snr_len
 
     snr = SNRdB(snr_idx);
     fprintf(1, 'SNR = %f \n',snr);
@@ -63,7 +62,8 @@ for snr_idx = 1:snr_len
     P_ecw(snr_idx) = N_errors;
 
 end
-toc
 
 P_ecw
-% save('./Output/Layered.mat');
+
+[~,time_stamp] = system('echo $time_stamp')
+save(['./Output/Layered_out_' , time_stamp(1:end-1) , '.mat']);

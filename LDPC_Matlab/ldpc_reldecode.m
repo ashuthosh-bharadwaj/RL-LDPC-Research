@@ -1,13 +1,15 @@
 %setup
+cd .. 
+RELDEC;
 
 SNRdB = 1:0.5:3.5;
 
 snr_len = numel(SNRdB);
 numIters = 50;
 P_ecw = zeros(1, snr_len);
-numTrials = 1e3;
+numTrials = 1e6;
 
-for snr_idx = 1:snr_len
+parfor snr_idx = 1:snr_len
 
     snr = SNRdB(snr_idx);
     fprintf(1, 'SNR = %f \n',snr);
@@ -46,7 +48,7 @@ for snr_idx = 1:snr_len
         for iter = 1:numIters
             
             for c_idx = 1:num_clusters
-                S_(c_idx) = int_m(l(vns_in_cluster{c_idx}) >= 0);
+                S_(c_idx) = int_m(l(vns_in_cluster{c_idx}) < 0);
             end
         
             Q_req = zeros(tau,1);
@@ -80,4 +82,5 @@ end
 
 P_ecw
 
-
+[~,time_stamp] = system('echo $time_stamp')
+save(['./Output/Reldecode_out_' , time_stamp(1:end-1) , '.mat']);

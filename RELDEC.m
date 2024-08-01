@@ -56,7 +56,7 @@ for idx = 1:ndata
     l_ = 0;
 
     for c_idx = 1:num_clusters
-        S(c_idx) = int_m(l(vns_in_cluster{c_idx}) >= 0);
+        S(c_idx) = int_m(l(vns_in_cluster{c_idx}) < 0);
     end
     
     while l_ < l_max
@@ -76,7 +76,7 @@ for idx = 1:ndata
         
         local_flood; %(tanh first and sum second)
 
-        x_hat_a = (vns_in_cluster{a} >= 0);
+        x_hat_a = (l(vns_in_cluster{a}) < 0);
 
         s_a = int_m(x_hat_a);
 
