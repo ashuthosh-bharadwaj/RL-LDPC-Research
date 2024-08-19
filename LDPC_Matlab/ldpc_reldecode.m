@@ -1,25 +1,26 @@
 %setup
-cd .. 
-RELDEC;
+RELDEC; 
 
-SNRdB = 1:0.5:3.5;
+% SNRdB = 1:0.5:3.5;
+Eb_NodB = 1:0.5:3.5; 
 
-snr_len = numel(SNRdB);
+snr_len = numel(Eb_NodB);
 numIters = 50;
 P_ecw = zeros(1, snr_len);
 numTrials = 1e6;
 
 parfor snr_idx = 1:snr_len
 
-    snr = SNRdB(snr_idx);
+    snr = Eb_NodB(snr_idx);
     fprintf(1, 'SNR = %f \n',snr);
-    var = sqrt(10^(-1*snr/10));
+    var = sqrt(13*10^(-1*snr/10)/5);
     N_errors = 0;
 
     for trial = 1:numTrials
 
-        message = randi([0,1],1,msg_len)';
-        codeword = ldpcEncode(message, Encode_config)';
+        % message = randi([0,1],1,msg_len)';
+        % codeword = ldpcEncode(message, Encode_config)';
+        codeword = zeros(1,520);
 
         channel_input = (1 - 2*codeword);
         noise = var*randn(size(channel_input));
@@ -60,7 +61,51 @@ parfor snr_idx = 1:snr_len
             [~, schedule] = sort(Q_req,'descend');
         
             for a = schedule'
-                local_flood;
+                % Based on given cluster, find the right set of var nodes and checknodes and commence flooding; 
+                CNs = clusters{a};
+                VNs = vns_in_cluster{a};
+
+                num_cns = numel(CNs);
+                num_vns = numel(VNs);
+
+                idxmap_C = dictionary(1:num_cns, CNs);
+                idxmap_V = dictionary(VNs, 1:num_vns);
+
+
+                current = ldpc_registers{a};
+
+
+                % C -> V
+
+                for cn_idx = 1:num_cns
+
+                    places = BitsinCheck{idxmap_C(cn_idx)};
+                    current(cn_idx, idxmap_V(places)) = l(places) -  current(cn_idx, idxmap_V(places));
+
+                Mforw = tanh(current(cn_idx, idxmap_V(places))/2);
+                product = prod(Mforw);
+            
+                Mforw = product./Mforw;
+                Mforw_parity = sign(1+ 2*sign(Mforw));
+                Mforw = 2*atanh(Mforw_parity.*min(abs(Mforw), 0.9999787));
+        
+                current(cn_idx, idxmap_V(places)) = Mforw;
+
+                % Checker for LLRs blowing up
+                if any(isinf(current))
+                        disp('LLRs are blowing up in local_flood!');
+                    keyboard;
+                end
+
+                end
+
+
+                % V -> C
+
+                l(VNs) = l(VNs) + sum(current,1);
+
+                ldpc_registers{a} = current; % re-init for self-belief removal
+    
             end
         
             xhat = (l < 0);

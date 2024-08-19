@@ -1,25 +1,27 @@
 setup;
 
-SNRdB = 1.75:0.25:3.5;
+% SNRdB = 1:0.5:3.5;
+Eb_NodB = 1:0.5:3.5;
 
-snr_len = numel(SNRdB);
+snr_len = numel(Eb_NodB);
 numIters = 50;
 P_ecw = zeros(1, snr_len);
-numTrials = 1e4;
+numTrials = 1e6;
 
 parfor snr_idx = 1:snr_len
 
-    snr = SNRdB(snr_idx);
+    snr = Eb_NodB(snr_idx);
     fprintf(1, 'SNR = %f \n',snr);
-    var = sqrt(10^(-1*snr/10));
+    var = sqrt(13*10^(-1*snr/10)/5);
     N_errors = 0;
 
     for trial = 1:numTrials
         
         LLR_registers = LLR_registers_init;
 
-        message = randi([0,1],1,msg_len)';
-        codeword = ldpcEncode(message, Encode_config);
+        % message = randi([0,1],1,msg_len)';
+        % codeword = ldpcEncode(message, Encode_config);
+        codeword = zeros(1,520);
 
         channel_input = (1 - 2*codeword);
         noise = var*randn(size(channel_input));

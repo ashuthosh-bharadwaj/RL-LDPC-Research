@@ -1,5 +1,5 @@
-snr = 1:0.5:3.5;
-num_snr = numel(snr);
+Eb_NodB = 1:0.5:3.5;
+num_snr = numel(Eb_NodB);
 L = zeros(15000,520);
 C = zeros(15000,520);
 
@@ -7,11 +7,12 @@ C = zeros(15000,520);
 rng(1)
 
 for i = 1:15000
-    message = randi([0,1],1,100);
-    codeword = ldpcEncode(message, Encode_config);
+    % message = randi([0,1],1,100);
+    % codeword = ldpcEncode(message, Encode_config);
+    codeword = zeros(1,520);
 
     channel_input = (1 - 2*codeword);
-    var = sqrt(10^(-1*snr(randperm(num_snr,1))/10));
+    var = sqrt(13*10^(-1*Eb_NodB(randperm(num_snr,1))/10)/5);
     noise = var*randn(size(channel_input));
     channel_output = channel_input + noise;
 
@@ -22,4 +23,4 @@ for i = 1:15000
 end 
 
 clear i message codeword noise channel_input channel_output llr_in var num_snr snr;
-save('Datasets/LC_dataset.mat');
+save('../Datasets/LC_dataset.mat');
