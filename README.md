@@ -12,12 +12,12 @@
     2. cd Extra 
     3. run `LC_generate` after changing required params in the same file
 
--   We also need the clusters and the variable nodes belongignto the cluster, and this is generated into another mat file:  `LDPC_init.mat`. To generate this, we need to change parameters in `./cluster_create.py` file and run it (requirements: scipy, numpy, networkx, matlab.engine)
+-   We also need the clusters and the variable nodes belongignto the cluster, and this is generated into another mat file:  `LDPC_init.mat`. To generate this, we need to change parameters in `./cluster_create.py` file and run it (requirements: scipy, numpy, networkx, matlab.engine). `./cluster_create.py` requires `./utils.py` for internal utility.  
 
 These 2 files are already part of ./LDPC_Matlab/Datasets/ so there is no need to generate these unless you require some parameter changes (cluster size, LLR dataset size, etc).
 
 
-You can  then  run `RELDEC` from the main directory. This will generate the Q table after training. 
+You can  then  run `RELDEC` from LDPC_Matlab directory. This will generate the Q table after training. 
 
 ### To run matlab decoders 
 You can navigate to ./LDPC_Matlab and check for files 
@@ -26,4 +26,4 @@ You can navigate to ./LDPC_Matlab and check for files
 - ldpc_reldecode.m (calls RELDEC inside to generate Q table)
 - ldpc_flooding.m 
 
-These files contain all the required parameters to run an FER simulation for a given range of SNRs.
+These files contain all the required parameters to run an FER simulation for a given range of SNRs. Generally these files are run using a batch job over the cluster. This provides the option of using parallel computation (each FER simulation over a given SNR is independent of the other). The `parfor` utility provided by Matlab is used in this case. 
